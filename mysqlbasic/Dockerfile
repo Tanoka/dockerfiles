@@ -1,0 +1,7 @@
+FROM mysql:5.7.17
+
+ENV MYSQL_ROOT_PASSWORD secretrootpass
+ENV MYSQL_DATABASE testdoc
+ENV MYSQL_USER usuario
+ENV MYSQL_PASSWORD usupasswd
+
