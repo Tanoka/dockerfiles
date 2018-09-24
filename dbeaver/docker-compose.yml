@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  dbeaver:
+    container_name: dbeaver
+    build: ./
+    environment:
+      DISPLAY: $DISPLAY
+    volumes: 
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - config:/root/.dbeaver4
+      - drivers:/root/.dbeaver-drivers
+    network_mode: "host"
+
+volumes:
+    config:
+    drivers:
