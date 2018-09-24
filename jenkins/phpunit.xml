@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "false"
+    syntaxCheck                 = "false" >
+
+<!-- "Testing" es en nombre del job -->
+
+    <php>
+        <server name="KERNEL_DIR" value="/var/jenkins_home/workspace/Testing/app/" />
+    </php>
+
+    <testsuites>
+        <testsuite name="unit">
+            <directory>/var/jenkins_home/workspace/Testing/src/*Bundle/Tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>/var/jenkins_home/workspace/Testing/src/*Bundle/Tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true"  >
+            <directory suffix=".php">/var/jenkins_home/workspace/Testing/src</directory>
+            <exclude>
+            <directory>/var/jenkins_home/workspace/Testing/src/app</directory>
+            <directory>/var/jenkins_home/workspace/Testing/src/bin</directory>
+            <directory>/var/jenkins_home/workspace/Testing/src/vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+ 	<log type="coverage-html" target="/var/jenkins_home/workspace/Testing/build/coverage"/>
+ 	<log type="coverage-clover" target="/var/jenkins_home/workspace/Testing/build/logs/clover.xml"/>
+ 	<log type="coverage-crap4j" target="/var/jenkins_home/workspace/Testing/build/logs/crap4j.xml"/>
+ 	<log type="junit" target="/var/jenkins_home/workspace/Testing/build/logs/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
+
+</phpunit>

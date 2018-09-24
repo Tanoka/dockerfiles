@@ -1,0 +1,70 @@
+version: '2.2'
+services:
+  jenkins:
+    build: ./
+    image: jenkins_php
+    container_name: jenkins
+    init: true
+    expose:
+      - 8081
+      - 50000
+    ports:
+      - 8081:8081
+      - 50000:50000
+    volumes:
+      - home:/var/jenkins_home
+      - ./build.xml:/home/jenkins/build.xml
+      - ./phpunit.xml:/home/jenkins/phpunit.xml
+      - ./phpmd.xml:/home/jenkins/phpmd.xml
+      - ./parameters.yml:/home/jenkins/parameters.yml
+      - ./config_dev.yml:/home/jenkins/config_dev.yml
+    networks:
+      jenkins:
+
+  mysql:
+    image: mysql:5.6
+    container_name: jenkins_mysql
+    init: true
+    mem_limit: 6g
+    cpuset: "1,2"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "3307:3306"
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      jenkins:
+
+  mongodb:
+    image: mongo:3.4
+    container_name: jenkins_mongodb
+    command: ["mongod", "--bind_ip", "0.0.0.0", "--port", "27017"]
+    mem_limit: 4g
+    cpuset: "4"
+    expose:
+      - "27017"
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb:/data/db
+    networks:
+      jenkins:
+
+# Duplicar volúmenes: 
+# docker volume create jenkins_db
+# docker run -it -v docker_mysqldata:/from -v jenkins_db:/to alpine ash -c "cd /from ; cp -av . /to"
+volumes:     
+  home:
+  db:
+  mongodb:
+  sphinx:
+
+networks:
+    jenkins:
+        driver: bridge
+        ipam:
+            config:
+               - subnet: 172.18.10.0/24
+
