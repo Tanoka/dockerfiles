@@ -7,12 +7,13 @@ FROM debian:stretch-slim
 RUN apt-get update
 RUN apt-get -y install calibre
 
-RUN groupadd -g 1001 david
-RUN useradd -b /home -m -u 1001 -g david david
+RUN groupadd -g 1000 calibre
+RUN useradd -b /home -m -u 1000 -g calibre calibre
 
 RUN apt-get install -y dbus-x11
 
-RUN mkdir /home/david/calibre_library && mkdir -p /home/david/.config/calibre && chown -R david:david /home/david
-USER david
+USER calibre
+RUN mkdir -p /home/calibre/.config/calibre && mkdir /home/calibre/calibreLibrary
+
 
 CMD [ "calibre" ]

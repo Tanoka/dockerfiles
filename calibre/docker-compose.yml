@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  calibre:
+    container_name: calibre
+    build: ./
+    environment:
+      - DISPLAY=unix:0
+    devices:
+      - "/dev/dri:/dev/dri"
+
+    volumes: 
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - config:/home/calibre/.config/calibre
+      - /home/david/CalibreLibrary:/home/calibre/calibreLibrary
+
+volumes:
+     config:
+
