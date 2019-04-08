@@ -18,38 +18,24 @@ Instalamos las herramientas php:
 phpunit, phpmd, pdepend, php_codesniffer, phploc, phpcpd. Podemos tener un composer general e instalarlos en la home de jenkins. O tenerlos en el composer del proyecto a integrar en jenkins como require -dev
 
 ### Instalamos los plugins en jenkins:
-checkstyle, cloverphp, crap4j, dry, htmlpublisher, jdepend, plot, pmd, violations, warnings, xunit
-
-Creamos un fichero build.xml. Es un fichero Ant en el que indicamos lo que queremos ejecutar, donde, como guardamos los resultados (xml normalmente), etc.
-
-En nuestro caso serán los programas php que hemos instalado previamente, phpunit, phpmd, etc. 
-Este fichero hay que ponerlo en el container, para ello lo montaremos como un volumen para compartir fichero. 
-
-Nota: La sintaxis de Ant puede ser un poco liosa, sobre todo con el tema de los path.
-
-Además de este fichero habrá que compartir los ficheros de configuración de phpunit y phpmd.
-
+checkstyle, cloverphp, crap4j, dry, htmlpublisher, jdepend, plot, pmd, violations, warnings, xunit.  
+Creamos un fichero build.xml. Es un fichero Ant en el que indicamos lo que queremos ejecutar, donde, como guardamos los resultados (xml normalmente), etc.  
+En nuestro caso serán los programas php que hemos instalado previamente, phpunit, phpmd, etc.  
+Este fichero hay que ponerlo en el container, para ello lo montaremos como un volumen para compartir fichero.  
+Nota: La sintaxis de Ant puede ser un poco liosa, sobre todo con el tema de los path.  
+Además de este fichero habrá que compartir los ficheros de configuración de phpunit y phpmd.  
 ### Configurando jenkins
-Creamos una una tarea del tipo "Freestyle project".
-
-Configuramos el nuevo projecto.
-* Configure
-
-El contenido de esta sección se ejecuta cada vez que hacemos un build, con "build now", triggers, etc. 
-
-* Source Code Management
-
-Indicamos Git para bajar el ćodigo. En Branches to build podemos indicar la branch: */Conectividad si queremos.
-
-* Build
-
-Comandos que se ejecutan para construir y ejecutar la build. 
-
-Aquí podemos poner instrucciones de linux, por ejemplo para copiar los ficheros de configuración al proyecto, pues no están en git.
-
-Ejecutar composer para instalar todas las dependencias. Cada vez que construimos una build se baja el código de git y hay que reconstruir vendor.
-
-Y el más importante, Ant con su fichero build.xml, que es el que hará todo el trabajo.
+Creamos una una tarea del tipo "Freestyle project".  
+Configuramos el nuevo projecto.  
+* Configure  
+El contenido de esta sección se ejecuta cada vez que hacemos un build, con "build now", triggers, etc.   
+* Source Code Management  
+Indicamos Git para bajar el ćodigo. En Branches to build podemos indicar la branch: */Conectividad si queremos.  
+* Build  
+Comandos que se ejecutan para construir y ejecutar la build.   
+Aquí podemos poner instrucciones de linux, por ejemplo para copiar los ficheros de configuración al proyecto, pues no están en git.  
+Ejecutar composer para instalar todas las dependencias. Cada vez que construimos una build se baja el código de git y hay que reconstruir vendor.  
+Y el más importante, Ant con su fichero build.xml, que es el que hará todo el trabajo.  
 
 Por ejemplo como cada vez que se ejecuta una build se baja de nuevo, los ficheros de configuración habrá que copiarlos cada vez.
 
