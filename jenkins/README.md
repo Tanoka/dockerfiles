@@ -11,10 +11,10 @@ montamos los volumenes `docker_mysqldata` (donde tenemos la base de datos) y `je
 
 
 ### Instalamos Jenkins
-En este caso nos bajamos una imagen con un jenkins y instalado.__
-En el Dockerfile añadiremos el resto de software que nos hace falta.__
-Como lo queremos para proyectos PHP instalamos PHP, sus librerias, composer, xdebug, los módulos de Jenkins para PHP (esto tambien lo podemos hacer después) y ant.__
-Instalamos las herramientas php:__
+En este caso nos bajamos una imagen con un jenkins y instalado.  
+En el Dockerfile añadiremos el resto de software que nos hace falta.  
+Como lo queremos para proyectos PHP instalamos PHP, sus librerias, composer, xdebug, los módulos de Jenkins para PHP (esto tambien lo podemos hacer después) y ant.  
+Instalamos las herramientas php:  
 phpunit, phpmd, pdepend, php_codesniffer, phploc, phpcpd. Podemos tener un composer general e instalarlos en la home de jenkins. O tenerlos en el composer del proyecto a integrar en jenkins como require -dev
 
 ### Instalamos los plugins en jenkins:
