@@ -1,15 +1,10 @@
-Para los containers de la base de datos, sphinx y mongo podemos utilizas las mismas imágenes de desarrolo. Estos containers apuntarán a volumenes propios solo para testing.
-Creamos el volumen para la base de datoc copiando el volumen de la base de datos de desarrollo, así no hay que volverla a instalar.
-Sphinx y mongo no hace falta, se crean muy rápido
-
-## Creamos el volumen jenkins_db
-`docker volume create jenkins_db`
-
-montamos los volumenes `docker_mysqldata` (donde tenemos la base de datos) y `jenkins_db` en dos directorios cualquiera sobre una imagen linux y copiamos los datos de un directorio a otro
-
+Para los containers de la base de datos, sphinx y mongodb podemos utilizar las mismas imágenes de desarrollo. Estos containers apuntarán a volumenes propios solo para testing.  
+Creamos el volumen para la base de datos copiando el volumen de la base de datos de desarrollo, así no hay que volverla a instalar.  
+Los containers para Sphinx y mongo no hace falta copiarlos, pués se crean muy rápido  
+## Creamos el volumen jenkins_db (base de datos de testing)
+`docker volume create jenkins_db`  
+Montamos los volumenes `docker_mysqldata` (donde tenemos la base de datos) y `jenkins_db` en dos directorios cualquiera sobre una imagen linux y copiamos los datos de un directorio a otro  
 `docker run -it -v docker_mysqldata:/from -v jenkins_db:/to alpine ash -c "cd /from ; cp -av . /to"`
-
-
 ## Instalamos Jenkins
 En este caso nos bajamos una imagen con un jenkins y instalado.  
 En el Dockerfile añadiremos el resto de software que nos hace falta.  
