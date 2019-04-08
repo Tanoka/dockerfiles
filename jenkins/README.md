@@ -2,7 +2,7 @@ Para los containers de la base de datos, sphinx y mongo podemos utilizas las mis
 Creamos el volumen para la base de datoc copiando el volumen de la base de datos de desarrollo, así no hay que volverla a instalar.
 Sphinx y mongo no hace falta, se crean muy rápido
 
-### Creamos el volumen jenkins_db
+## Creamos el volumen jenkins_db
 `docker volume create jenkins_db`
 
 montamos los volumenes `docker_mysqldata` (donde tenemos la base de datos) y `jenkins_db` en dos directorios cualquiera sobre una imagen linux y copiamos los datos de un directorio a otro
@@ -10,28 +10,28 @@ montamos los volumenes `docker_mysqldata` (donde tenemos la base de datos) y `je
 `docker run -it -v docker_mysqldata:/from -v jenkins_db:/to alpine ash -c "cd /from ; cp -av . /to"`
 
 
-### Instalamos Jenkins
+## Instalamos Jenkins
 En este caso nos bajamos una imagen con un jenkins y instalado.  
 En el Dockerfile añadiremos el resto de software que nos hace falta.  
 Como lo queremos para proyectos PHP instalamos PHP, sus librerias, composer, xdebug, los módulos de Jenkins para PHP (esto tambien lo podemos hacer después) y ant.  
 Instalamos las herramientas php:  
 phpunit, phpmd, pdepend, php_codesniffer, phploc, phpcpd. Podemos tener un composer general e instalarlos en la home de jenkins. O tenerlos en el composer del proyecto a integrar en jenkins como require -dev
 
-### Instalamos los plugins en jenkins:
+## Instalamos los plugins en jenkins:
 checkstyle, cloverphp, crap4j, dry, htmlpublisher, jdepend, plot, pmd, violations, warnings, xunit.  
 Creamos un fichero build.xml. Es un fichero Ant en el que indicamos lo que queremos ejecutar, donde, como guardamos los resultados (xml normalmente), etc.  
 En nuestro caso serán los programas php que hemos instalado previamente, phpunit, phpmd, etc.  
 Este fichero hay que ponerlo en el container, para ello lo montaremos como un volumen para compartir fichero.  
 Nota: La sintaxis de Ant puede ser un poco liosa, sobre todo con el tema de los path.  
 Además de este fichero habrá que compartir los ficheros de configuración de phpunit y phpmd.  
-### Configurando jenkins
+## Configurando jenkins
 Creamos una una tarea del tipo "Freestyle project".  
 Configuramos el nuevo projecto.  
-* Configure  
+### Configure  
 El contenido de esta sección se ejecuta cada vez que hacemos un build, con "build now", triggers, etc.   
-* Source Code Management  
+#### Source Code Management  
 Indicamos Git para bajar el ćodigo. En Branches to build podemos indicar la branch: */Conectividad si queremos.  
-* Build  
+####  Build  
 Comandos que se ejecutan para construir y ejecutar la build.   
 Aquí podemos poner instrucciones de linux, por ejemplo para copiar los ficheros de configuración al proyecto, pues no están en git.  
 Ejecutar composer para instalar todas las dependencias. Cada vez que construimos una build se baja el código de git y hay que reconstruir vendor.  
@@ -61,7 +61,7 @@ Invoke Ant:
 ant version: ant  
 Build File: /var/jenkins_home/build.xml   
 
-* Post-build Actions  
+#### Post-build Actions  
 Esta sección es la que se encarga de mostrar los resultados generados con Ant en la sección anterior.  
 Ant habrá ejecutado phpunit y habremos generado xml con los resultados, y lo mismo para el resto.  
 En el seleccionable indicamos que plugins queremos usar para mostrar los diferentes resultados, por ejemplo:  
