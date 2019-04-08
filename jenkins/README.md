@@ -39,13 +39,11 @@ Y el más importante, Ant con su fichero build.xml, que es el que hará todo el 
 
 Por ejemplo como cada vez que se ejecuta una build se baja de nuevo, los ficheros de configuración habrá que copiarlos cada vez.
 
-command:
-
+command:  
 `cp /home/jenkins/parameters.yml WORKSPACE/app/config/parameters.yml \
 &&  cp /home/jenkins/config_test.yml $WORKSPACE/app/config/config_test.yml`
 
-Estos ficheros solo haría falta copiarlos una vez tras montar la imagen.
-
+Estos ficheros solo haría falta copiarlos una vez tras montar la imagen.  
 `cp /home/jenkins/build.xml $JENKINS_HOME/build.xml \
 && cp /home/jenkins/phpmd.xml $JENKINS_HOME/phpmd.xml \
 && cp /home/jenkins/phpunit.xml $JENKINS_HOME/phpunit.xml \
@@ -53,32 +51,26 @@ Estos ficheros solo haría falta copiarlos una vez tras montar la imagen.
 
 Instalamos todas las dependencias
 
-command: 
-
+command:   
 `cd $WORKSPACE \
 && /usr/local/bin/composer install `
 
 Ejecutamos ant. El fichero build.xml es el que contiene las instrucciones para ant. Programas a ejecutar, como phpunit o phpmd, donde tienen que dejar los logs, etc.
 
-Invoke Ant: 
+Invoke Ant:  
+ant version: ant  
+Build File: /var/jenkins_home/build.xml   
 
-ant version: ant
+* Post-build Actions  
+Esta sección es la que se encarga de mostrar los resultados generados con Ant en la sección anterior.  
+Ant habrá ejecutado phpunit y habremos generado xml con los resultados, y lo mismo para el resto.  
+En el seleccionable indicamos que plugins queremos usar para mostrar los diferentes resultados, por ejemplo:  
 
-Build File: /var/jenkins_home/build.xml 
+Desde ant, con phpcs-ci hemos generado un fichero build/logs/checkstyle.xml, lo mostramos en los resultados:  
 
-Post-build Actions:
-
-Esta sección es la que se encarga de mostrar los resultados generados con Ant en la sección anterior.
-Ant habrá ejecutado phpunit y habremos generado xml con los resultados, y lo mismo para el resto.
-En el seleccionable indicamos que plugins queremos usar para mostrar los diferentes resultados, por ejemplo:
-
-Desde ant, con phpcs-ci hemos generado un fichero build/logs/checkstyle.xml, lo mostramos en los resultados:
-
-Publish checkstyle analysis results:
-
-checkstyle results: build/logs/checkstyle.xml
-
-Los path de los xml están definidos en los ficheros build.xml y phpunit.xml.
+Publish checkstyle analysis results:  
+checkstyle results: build/logs/checkstyle.xml  
+Los path de los xml están definidos en los ficheros build.xml y phpunit.xml.  
 
 La configuración que se genera desde jenkins para cada tarea se guarda en el directorio jobs de la tarea, en nuestro caso:
 /var/jenkins_home/jobs/[nombre tarea]/config.xml
